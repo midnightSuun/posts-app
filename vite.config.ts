@@ -12,7 +12,7 @@ export default defineConfig({
       autoCodeSplitting: true,
     }),
     react(),
-    babel({ presets: [reactCompilerPreset()] }),
+    //babel({ presets: [reactCompilerPreset()] }),
     svgr()
   ],
 })

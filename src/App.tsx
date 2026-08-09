@@ -3,7 +3,8 @@ import { PostSummary } from './post/post-summary'
 import { usePosts } from './post/api/get-posts'
 import { CreatePostForm } from './post/create-post-form'
 
-function App() {
+export function App() {
+ 
   const { data: posts, isError } = usePosts()
 
   if (isError) {
@@ -23,5 +24,3 @@ function App() {
     </div>
   )
 }
-
-export default App
