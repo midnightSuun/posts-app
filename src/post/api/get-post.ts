@@ -1,11 +1,10 @@
-import { useQuery } from "@tanstack/react-query"
-import type { Post } from "../../types"
+import { api } from '@/api'
+import { useQuery } from '@tanstack/react-query'
 
-const queryFn = async(postId: string) => {
-    const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
-    const data = await response.json() as Post
+const queryFn = async (postId: string) => {
+  const response = await api.GET('/posts/{id}', { params: { path: { id: postId } } })
 
-    return data
+  return response.data
 }
 
-export const usePost = (postId: string) => useQuery({queryKey: ['posts', postId], queryFn: () => queryFn(postId)})
+export const usePost = (postId: string) => useQuery({ queryKey: ['posts', postId], queryFn: () => queryFn(postId) })

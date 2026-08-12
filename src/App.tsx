@@ -1,10 +1,8 @@
 import styles from './App.module.css'
-import { PostSummary } from './post/post-summary'
 import { usePosts } from './post/api/get-posts'
-import { CreatePostForm } from './post/create-post-form'
+import { PostSummary } from './post/post-summary'
 
 export function App() {
- 
   const { data: posts, isError } = usePosts()
 
   if (isError) {
@@ -17,7 +15,6 @@ export function App() {
 
   return (
     <div className={styles.postsContainer}>
-      <CreatePostForm />
       {posts.data.map((item) => (
         <PostSummary key={item.id} post={item} />
       ))}

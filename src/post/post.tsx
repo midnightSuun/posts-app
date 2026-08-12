@@ -1,8 +1,8 @@
-import { getRouteApi } from "@tanstack/react-router";
+import { getRouteApi } from "@tanstack/react-router"
 import styles from "./post.module.css"
-import { usePost } from "./api/get-post";
+import { usePost } from "./api/get-post"
 
-const route = getRouteApi("/$postId")
+const route = getRouteApi("/__protected/$postId")
 
 export function PostView() {
     const {postId} = route.useParams()

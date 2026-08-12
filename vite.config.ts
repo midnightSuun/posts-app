@@ -1,18 +1,23 @@
-import { defineConfig } from 'vite'
-import react, { reactCompilerPreset } from '@vitejs/plugin-react'
-import babel from '@rolldown/plugin-babel'
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
-import svgr from "vite-plugin-svgr";
+import react from '@vitejs/plugin-react'
+import path from 'path'
+import { defineConfig } from 'vite'
+import svgr from 'vite-plugin-svgr'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    tanstackRouter({
-      target: 'react',
-      autoCodeSplitting: true,
-    }),
-    react(),
-    //babel({ presets: [reactCompilerPreset()] }),
-    svgr()
-  ],
+    plugins: [
+        tanstackRouter({
+            target: 'react',
+            autoCodeSplitting: true,
+        }),
+        react(),
+        //babel({ presets: [reactCompilerPreset()] }),
+        svgr(),
+    ],
+    resolve: {
+        alias: {
+            '@': path.resolve(__dirname, './src'),
+        },
+    },
 })

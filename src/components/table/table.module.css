@@ -1,0 +1,10 @@
+.thead {
+  background-color: transparent;
+}
+
+.th {
+  color: var(--mantine-color-dimmed);
+  font-weight: 500;
+  font-size: var(--mantine-font-size-xs);
+  text-transform: none;
+}

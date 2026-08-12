@@ -1,0 +1,6 @@
+import { createFileRoute } from '@tanstack/react-router'
+import { PostView } from '../../post'
+
+export const Route = createFileRoute('/__protected/$postId')({
+  component: PostView
+})

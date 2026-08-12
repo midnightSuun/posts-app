@@ -1,7 +1,7 @@
 import { useCreatePost } from './api/create-post'
 import { toast } from 'sonner'
-import { Button, Flex, Input, TextInput } from '@mantine/core'
-import { useForm } from 'react-hook-form'
+import { Flex, TextInput } from '@mantine/core'
+import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormButton } from '../components/form/form-button'
@@ -21,10 +21,18 @@ const defaultValues: FormData = {
 export function CreatePostForm() {
   const { mutateAsync } = useCreatePost()
 
-  const { register, handleSubmit, reset, formState: { errors, isLoading, isSubmitting } } = useForm<FormData>({
+  const methods = useForm<FormData>({
     defaultValues,
     resolver: zodResolver(schema),
   })
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isLoading },
+  } = methods
+
   const onSubmit = async (data: FormData) => {
     await mutateAsync(data)
     toast.success(`you've created a new post`)
@@ -33,11 +41,13 @@ export function CreatePostForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Flex direction='column' gap={'sm'}>
-        <TextInput error={errors.title?.message} disabled={isLoading} placeholder='Title' {...register('title')} />
-        <TextInput error={errors.body?.message} disabled={isLoading} placeholder='Body' {...register('body')} />
-        <FormButton />
-      </Flex>
-    </form> 
+      <FormProvider {...methods}>
+        <Flex direction="column" gap={'sm'}>
+          <TextInput error={errors.title?.message} disabled={isLoading} placeholder="Title" {...register('title')} />
+          <TextInput error={errors.body?.message} disabled={isLoading} placeholder="Body" {...register('body')} />
+          <FormButton>Create</FormButton>
+        </Flex>
+      </FormProvider>
+    </form>
   )
 }
