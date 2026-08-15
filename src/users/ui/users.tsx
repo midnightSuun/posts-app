@@ -2,9 +2,17 @@ import { Table, type TableColumn } from '@/components/table'
 import { useUsers } from '../api/get-user'
 import type { User } from '@/types'
 import dayjs from 'dayjs'
+import { getRouteApi } from '@tanstack/react-router'
+import { Group, Pagination } from '@mantine/core'
+
+const route = getRouteApi('/__protected/users')
 
 export function UsersView() {
-  const { data: users } = useUsers()
+  const { page } = route.useSearch()
+  const navigate = route.useNavigate()
+
+  const { data: users } = useUsers(page)
+
   const tableColumns: TableColumn<User>[] = [
     {
       label: 'User name',
@@ -21,27 +29,18 @@ export function UsersView() {
     },
   ]
 
-  return <Table columns={tableColumns} data={users?.data ?? []} />
-
-  //   return (
-  //     <Table>
-  //       <Table.Thead>
-  //         <Table.Tr>
-  //           <Table.Th>User name</Table.Th>
-  //           <Table.Th>Register date</Table.Th>
-  //           <Table.Th>Email</Table.Th>
-  //         </Table.Tr>
-  //       </Table.Thead>
-  //       <Table.Tbody>
-  //         {users?.data.map((item) => (
-  //           <Table.Tr key={item.id}>
-  //             <Table.Td>{item.displayName}</Table.Td>
-  //             <Table.Td>{dayjs(item.createdAt).format("DD.MM.YYYY")}</Table.Td>
-  //             {/* @ts-expect-error openapi schema is not generated correctly */}
-  //             <Table.Td>{item.primaryEmail ?? 'no email'}</Table.Td>
-  //           </Table.Tr>
-  //         ))}
-  //       </Table.Tbody>
-  //     </Table>
-  //   )
+  return (
+    <>
+      <Table columns={tableColumns} data={users?.data ?? []} />
+      <Pagination.Root total={users?.meta.totalPages ?? 0} onChange={page => navigate({search: {page}})}>
+        <Group gap={5} justify="center">
+          <Pagination.First />
+          <Pagination.Previous />
+          <Pagination.Items />
+          <Pagination.Next />
+          <Pagination.Last />
+        </Group>
+      </Pagination.Root>
+    </>
+  )
 }
