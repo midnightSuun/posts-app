@@ -4,6 +4,7 @@ import z from 'zod'
 
 const validateSearch = z.object({
   page: z.number().default(1),
+  q: z.string().default(''),
 })
 
 export const Route = createFileRoute('/__protected/users')({
